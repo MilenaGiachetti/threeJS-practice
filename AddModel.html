@@ -1,18 +1,27 @@
 <html>
-	<head>
-		<title>Add model</title>
-		<style>
-			body { margin: 0; }
-			canvas { display: block; width: 100%; height: 100%;}
-		</style>
-	</head>
-	<body>
-        <canvas id="c"></canvas>
-  
-        <!-- <script  type="module" src="https://threejs.org/build/three.js"></script>
+
+<head>
+    <title>Add model</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c"></canvas>
+
+    <!-- <script  type="module" src="https://threejs.org/build/three.js"></script>
         <script type="module" src="https://threejs.org/examples/jsm/loaders/GLTFLoader.js"></script> -->
-		<script  type="module">
-            import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+    <script type="module">
+        import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
             import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/controls/OrbitControls.js';
             import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/GLTFLoader.js';
 
@@ -32,20 +41,20 @@
             controls.update();
 
             const scene = new THREE.Scene();
-            scene.background = new THREE.Color('black');
+            scene.background = new THREE.Color('#ffc0f4');
 
 
             {
-                const skyColor = 0xffffff;  // light blue
-                const groundColor = 0x000000;  // brownish orange
+                const skyColor = 0xfff3cc;  // light blue
+                const groundColor = 0x855722;  // brownish orange
                 const intensity = 1;
                 const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
                 scene.add(light);
             }
 
             {
-                const color = 0x000000;
-                const intensity = 1;
+                const color = 0xffefba;
+                const intensity = 0.3;
                 const light = new THREE.DirectionalLight(color, intensity);
                 light.position.set(5, 10, 2);
                 scene.add(light);
@@ -80,24 +89,24 @@
 
             {
                 const gltfLoader = new GLTFLoader();
-                gltfLoader.load('./models/donut.glb', (gltf) => {
-                const root = gltf.scene;
-                scene.add(root);
+                gltfLoader.load('./models/donut-sprinkles.glb', (gltf) => {
+                    const root = gltf.scene;
+                    scene.add(root);
+                    
+                    // compute the box that contains all the stuff
+                    // from root and below
+                    const box = new THREE.Box3().setFromObject(root);
 
-                // compute the box that contains all the stuff
-                // from root and below
-                const box = new THREE.Box3().setFromObject(root);
+                    const boxSize = box.getSize(new THREE.Vector3()).length();
+                    const boxCenter = box.getCenter(new THREE.Vector3());
 
-                const boxSize = box.getSize(new THREE.Vector3()).length();
-                const boxCenter = box.getCenter(new THREE.Vector3());
+                    // set the camera to frame the box
+                    frameArea(boxSize * 0.5, boxSize, boxCenter, camera);
 
-                // set the camera to frame the box
-                frameArea(boxSize * 0.5, boxSize, boxCenter, camera);
-
-                // update the Trackball controls to handle the new size
-                controls.maxDistance = boxSize * 10;
-                controls.target.copy(boxCenter);
-                controls.update();
+                    // update the Trackball controls to handle the new size
+                    controls.maxDistance = boxSize * 10;
+                    controls.target.copy(boxCenter);
+                    controls.update();
                 });
             }
 
@@ -114,9 +123,9 @@
 
             function render() {
                 if (resizeRendererToDisplaySize(renderer)) {
-                const canvas = renderer.domElement;
-                camera.aspect = canvas.clientWidth / canvas.clientHeight;
-                camera.updateProjectionMatrix();
+                    const canvas = renderer.domElement;
+                    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                    camera.updateProjectionMatrix();
                 }
 
                 renderer.render(scene, camera);
@@ -130,5 +139,6 @@
             main();
 
 		</script>
-	</body>
+</body>
+
 </html>
