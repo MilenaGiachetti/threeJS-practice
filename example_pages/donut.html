@@ -1,0 +1,104 @@
+<html>
+
+<head>
+    <title>Add model</title>
+    <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c"></canvas>
+
+    <!-- <script  type="module" src="https://threejs.org/build/three.js"></script>
+        <script type="module" src="https://threejs.org/examples/jsm/loaders/GLTFLoader.js"></script> -->
+    <script type="module">
+        import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+        import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/GLTFLoader.js';
+
+        function main() {
+            const canvas = document.querySelector('#c');
+            const renderer = new THREE.WebGLRenderer({canvas});
+
+            const fov = 10;
+            const aspect = 2;  // the canvas default
+            const near = 0.1;
+            const far = 5;
+
+            const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+            camera.position.z = 2;
+
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color('#ffc0f4');
+
+            {
+                const color = 0xffc0f4;
+                const intensity = 1;
+                const light = new THREE.DirectionalLight(color, intensity);
+                light.position.set(-1, 0, 3);
+                scene.add(light);
+                scene.add(light.target);
+            }
+
+            let model;
+
+            {
+                const gltfLoader = new GLTFLoader();
+                gltfLoader.load('../models/donut-sprinkles.glb', (gltf) => {
+                    model = gltf.scene;
+                    scene.add(model);
+                    model.rotation.x = 1.5;
+
+                    const box = new THREE.Box3().setFromObject(model);
+
+                    const boxSize = 1;
+                });
+            }
+
+            function resizeRendererToDisplaySize(renderer) {
+                const canvas = renderer.domElement;
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+                const needResize = canvas.width !== width || canvas.height !== height;
+                if (needResize) {
+                    renderer.setSize(width, height, false);
+                }
+                return needResize;
+            }
+
+            function render(time) {
+                if (resizeRendererToDisplaySize(renderer)) {
+                    const canvas = renderer.domElement;
+                    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                    camera.updateProjectionMatrix();
+                }
+
+                if (model) {
+                    //model.rotation.x = time * 0.01;
+                    model.rotation.z = time * 0.003;
+                    //model.rotation.y = time * 0.004;
+                }
+
+                renderer.render(scene, camera);
+
+                requestAnimationFrame(render);
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        main();
+
+    </script>
+</body>
+
+</html>
