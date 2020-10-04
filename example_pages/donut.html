@@ -28,14 +28,16 @@
             const canvas = document.querySelector('#c');
             const renderer = new THREE.WebGLRenderer({canvas});
 
-            const fov = 10;
+            const fov = 5;
             const aspect = 2;  // the canvas default
             const near = 0.1;
             const far = 5;
 
             const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-            camera.position.z = 2;
-
+            camera.position.set(1, 1, 2);
+            camera.lookAt(0, 0, 0);
+            //camera.position.z = 2;
+            //camera.lookAt( 0, 0, 0 )
 
             const scene = new THREE.Scene();
             scene.background = new THREE.Color('#ffc0f4');
@@ -44,7 +46,7 @@
                 const color = 0xffc0f4;
                 const intensity = 1;
                 const light = new THREE.DirectionalLight(color, intensity);
-                light.position.set(-1, 0, 3);
+                light.position.set(2, 3, 3);
                 scene.add(light);
                 scene.add(light.target);
             }
@@ -56,7 +58,7 @@
                 gltfLoader.load('../models/donut-sprinkles.glb', (gltf) => {
                     model = gltf.scene;
                     scene.add(model);
-                    model.rotation.x = 1.5;
+                    //model.rotation.x = 1.5;
 
                     const box = new THREE.Box3().setFromObject(model);
 
@@ -84,8 +86,8 @@
 
                 if (model) {
                     //model.rotation.x = time * 0.01;
-                    model.rotation.z = time * 0.003;
-                    //model.rotation.y = time * 0.004;
+                    //model.rotation.z = time * 0.003;
+                    model.rotation.y = time * 0.001;
                 }
 
                 renderer.render(scene, camera);
