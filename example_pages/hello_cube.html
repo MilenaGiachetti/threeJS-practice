@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Cube</title>
+    <style>
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+    <script type="module">
+        // IMPORT THREE.JS in a type module script
+        import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+        function main() {
+            // SELECT CANVAS to draw in
+            const canvas = document.querySelector('#c');
+            // CREATE A WEBGL RENDERER (uses WebGl to render 3D to canvas) -> Renderer takes the data provided and renders it to the canvas.
+            const renderer = new THREE.WebGLRenderer({canvas});
+            renderer.setSize(window.innerWidth, window.innerWidth/2);
+            
+            // CREATE A PERSPECTIVE CAMERA (uses perpective projection -> this projection mode is designed to mimic the way the human eye sees, most common for rendering 3D scenes)
+            // fov + aspect + near + far = frustum
+            // fov = field of view (in degrees, usually angles in three.js are in radians)
+            const fov = 75; // 75 in vertical dimension
+            // display aspect of the canvas
+            const aspect = 2;  // the canvas default (350x150 px = 300/150 = 2)
+            // near, far -> space in front of the camera that will be rendered (anything before or after that will be clipped - not drawn)
+            const near = 0.1;
+            const far = 5;
+
+            // CAMERA
+            const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+            camera.position.z = 2;
+
+            // SCENE
+            const scene = new THREE.Scene();
+
+            // LIGHTS - directional light 
+            {
+                const color = 0xFFFFFF;
+                const intensity = 1;
+                const light = new THREE.DirectionalLight(color, intensity);
+                light.position.set(-1, 2, 4); // position of the lights, default -> (0, 0, 0) 
+                // it can also be added a target (where the light will shine to), default -> (0, 0, 0) 
+                scene.add(light);
+            }
+
+            // CREATE BOX GEOMETRY
+            const boxWidth = 1;
+            const boxHeight = 1;
+            const boxDepth = 1;
+            const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+
+            // CREATE MATERIAL
+            // basic material -> not affected by lights
+            //const material = new THREE.MeshBasicMaterial({color: 0x44aa88});
+            // meshPhong material -> affected by lights
+            const material = new THREE.MeshPhongMaterial({color: 0x44aa88}); 
+
+            // CREATE MESH (it combines geometry and material)
+            const cube = new THREE.Mesh(geometry, material);
+            
+            // ADD MESH TO SCENE
+            scene.add(cube);
+
+            // RENDER SCENE
+            //renderer.render(scene, camera);
+
+            // ADD ANIMATION
+            function render(time) {
+                time *= 0.001;  // convert time to seconds
+                
+                // rotations in radians
+                cube.rotation.x = time; // a complete rotation every 6.28 s
+                cube.rotation.y = time; // a complete rotation every 6.28 s
+                
+                renderer.render(scene, camera);
+                
+                // request to browser that you want to animate something, the parameter is a function to be called. requestAnimationFrame pass the time since the page loaded out function (in ms)
+                // Makes a request animation loop
+                requestAnimationFrame(render);
+            }
+            // Starts the request animation Loop
+            requestAnimationFrame(render);
+
+            function resizeCanvas() {
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                //canvas.style.paddingTop = (window.innerHeight - canvas.height) / 2 +"px";
+                //canvas.style.marginLeft = (window.innerWidth - canvas.width) / 2 +"px";
+            }
+            window.onresize = resizeCanvas;
+            resizeCanvas();
+        }
+
+        
+        main();
+    </script>
+</body>
+</html>
