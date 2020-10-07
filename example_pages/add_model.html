@@ -45,10 +45,11 @@
 
 
         {
-            const skyColor = 0xfff3cc;  // light blue
-            const groundColor = 0x855722;  // brownish orange
-            const intensity = 1;
-            const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+            const skyColor = 0xffffff;  // light blue
+            //const groundColor = 0xffffff;  // brownish orange
+            const intensity = 0.8;
+            //const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+            const light = new THREE.HemisphereLight(skyColor, intensity);
             scene.add(light);
         }
 
@@ -101,7 +102,7 @@
                 const boxCenter = box.getCenter(new THREE.Vector3());
 
                 // set the camera to frame the box
-                frameArea(boxSize * 0.5, boxSize, boxCenter, camera);
+                frameArea(boxSize * 1, boxSize, boxCenter, camera);
 
                 // update the Trackball controls to handle the new size
                 controls.maxDistance = boxSize * 10;
