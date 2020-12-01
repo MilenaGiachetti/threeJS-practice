@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/MilenaGiachetti/threeJS-practice#readme",
   "dependencies": {
+    "@types/express": "^4.17.9",
+    "@types/node": "^14.14.10",
+    "express": "^4.17.1",
     "three": "^0.123.0"
   }
 }
