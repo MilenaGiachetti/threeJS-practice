@@ -1,7 +1,6 @@
-import * as http from 'http';
-import * as path from 'path';
-const express = require('express');
-
+import express from "express"
+import path from "path"
+import http from "http"
 
 const port: number = 3000
 
@@ -10,16 +9,16 @@ class App {
     private port: number
 
     constructor(port: number) {
-        this.port = port;
-        const app = express();
+        this.port = port
+        const app = express()
         // express to serve a folder
-        app.use(express.static(path.join(__dirname, '../client')));
-        this.server = new http.Server(app);
+        app.use(express.static(path.join(__dirname, '../client')))
+        this.server = new http.Server(app)
     }
 
     public Start() {
         this.server.listen(this.port, () => {
-            console.log( `Server listening on port ${this.port}.` );
+            console.log( `Server listening on port ${this.port}.` )
         })
     }
 }
