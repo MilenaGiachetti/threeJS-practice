@@ -5,9 +5,10 @@ const path = require('path')
 
 const generateHtmlPlugin = (title) => {
     return new HtmlWebpackPlugin({
-      title,
-      filename: `${title.toLowerCase()}/index.html`,
-      template: `./src/pages/${title.toLowerCase()}/index.html`,
+        title,
+        filename: `${title.toLowerCase()}/index.html`,
+        template: `./src/pages/${title.toLowerCase()}/index.html`,
+        base: process.env.NODE_ENV === 'production' ? '/threeJS-practice/' : '',
     });
 }
 
@@ -39,7 +40,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
-            minify: true
+            minify: true,
+            base: process.env.NODE_ENV === 'production' ? '/threeJS-practice/' : '',
         }),
         ...pages
     ],
