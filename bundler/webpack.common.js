@@ -2,7 +2,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
-const isProduction = process.env.npm_lifecycle_event == "prod";
+const isProduction = process.env.npm_lifecycle_event != "dev";
 
 const generateHtmlPlugin = (title) => {
     return new HtmlWebpackPlugin({
