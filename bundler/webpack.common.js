@@ -1,7 +1,8 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
-const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
+const isProduction = process.env.npm_lifecycle_event == "prod";
 
 const generateHtmlPlugin = (title) => {
     return new HtmlWebpackPlugin({
@@ -41,7 +42,7 @@ module.exports = {
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
             minify: true,
-            base: '/threeJS-practice/'
+            base: isProduction ? '/threeJS-practice/' : '/'
         }),
         ...pages
     ],
