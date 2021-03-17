@@ -9,7 +9,7 @@ const generateHtmlPlugin = (title) => {
         title,
         filename: `${title.toLowerCase()}/index.html`,
         template: `./src/pages/${title.toLowerCase()}/index.html`,
-        base: process.env.NODE_ENV === 'production' ? '/threeJS-practice/' : '',
+        base: isProduction ? '/threeJS-practice/' : '/'
     });
 }
 
