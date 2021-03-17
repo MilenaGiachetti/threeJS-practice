@@ -1,1 +1,0 @@
-# threeJS-practice
