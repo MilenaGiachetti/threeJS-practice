@@ -41,7 +41,7 @@ module.exports = {
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
             minify: true,
-            base: process.env.NODE_ENV === 'production' ? '/threeJS-practice/' : '',
+            base: '/threeJS-practice/'
         }),
         ...pages
     ],
