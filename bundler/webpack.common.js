@@ -24,10 +24,13 @@ const populateHtmlPlugins = (pagesArray) => {
 const pages = populateHtmlPlugins(["cube_responsive", "add_model", "donut", "hello_cube", "hello_cubes", "primitives"]);
 
 module.exports = {
-    entry: path.resolve(__dirname, '../src/script.js'),
+    entry: {
+        home: path.resolve(__dirname, '../src/script.js'),
+        add_model: path.resolve(__dirname, '../src/pages/add_model/script.js')
+    },
     output:
     {
-        filename: 'bundle.[contenthash].js',
+        filename: '[name].bundle.[contenthash].js',
         path: path.resolve(__dirname, '../dist')
     },
     devtool: 'source-map',
