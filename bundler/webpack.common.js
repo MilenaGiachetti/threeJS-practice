@@ -9,7 +9,9 @@ const generateHtmlPlugin = (title) => {
         title,
         filename: `${title.toLowerCase()}/index.html`,
         template: `./src/pages/${title.toLowerCase()}/index.html`,
-        base: isProduction ? '/threeJS-practice/' : '/'
+        base: isProduction ? '/threeJS-practice/' : '/',
+        inject: true,
+        chunks: [title]
     });
 }
 
@@ -25,7 +27,7 @@ const pages = populateHtmlPlugins(["cube_responsive", "add_model", "donut", "hel
 
 module.exports = {
     entry: {
-        home: path.resolve(__dirname, '../src/script.js'),
+        index: path.resolve(__dirname, '../src/script.js'),
         add_model: path.resolve(__dirname, '../src/pages/add_model/script.js')
     },
     output:
@@ -45,7 +47,9 @@ module.exports = {
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
             minify: true,
-            base: isProduction ? '/threeJS-practice/' : '/'
+            base: isProduction ? '/threeJS-practice/' : '/',
+            inject: true,
+            chunks: ['index']
         }),
         ...pages
     ],
