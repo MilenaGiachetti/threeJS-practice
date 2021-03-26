@@ -3,6 +3,14 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
+const ORIGIN_URL = window.location.origin;
+let base_url;
+
+if (ORIGIN_URL == "https://milenagiachetti.github.io") {
+    base_url = ORIGIN_URL + "/threeJS-practice/";
+} else {
+    base_url = ORIGIN_URL;
+}
 
 function main() {
 const canvas = document.querySelector('#c');
@@ -69,7 +77,7 @@ function frameArea(sizeToFitOnScreen, boxSize, boxCenter, camera) {
 
 {
     const gltfLoader = new GLTFLoader();
-    gltfLoader.load('../models/donut-sprinkles.glb', (gltf) => {
+    gltfLoader.load(base_url + '/models/donut-sprinkles.glb', (gltf) => {
         const root = gltf.scene;
         scene.add(root);
         
