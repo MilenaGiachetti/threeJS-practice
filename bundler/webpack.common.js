@@ -30,8 +30,8 @@ module.exports = {
         index: path.resolve(__dirname, '../src/script.js'),
         add_model: path.resolve(__dirname, '../src/pages/add_model/script.js')
     },
-    output:
-    {
+    output: {
+        publicPath: isProduction ? '/threeJS-practice/' : '/',
         filename: '[name].bundle.[contenthash].js',
         path: path.resolve(__dirname, '../dist')
     },

@@ -4,7 +4,8 @@
   "homepage": "https://milenagiachetti.github.io/threeJS-practice/",
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack serve --config ./bundler/webpack.dev.js"
+    "dev": "webpack serve --config ./bundler/webpack.dev.js",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "@babel/core": "^7.13.1",
