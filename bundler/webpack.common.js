@@ -23,12 +23,13 @@ const populateHtmlPlugins = (pagesArray) => {
     return res;
 }
 
-const pages = populateHtmlPlugins(["cube_responsive", "add_model", "donut", "hello_cube", "hello_cubes", "primitives"]);
+const pages = populateHtmlPlugins(["cube_responsive", "add_model", "donut", "hello_cube", "hello_cubes", "primitives", "text"]);
 
 module.exports = {
     entry: {
         index: path.resolve(__dirname, '../src/script.js'),
-        add_model: path.resolve(__dirname, '../src/pages/add_model/script.js')
+        add_model: path.resolve(__dirname, '../src/pages/add_model/script.js'),
+        text: path.resolve(__dirname, '../src/pages/text/script.js')
     },
     output: {
         publicPath: isProduction ? '/threeJS-practice/' : '/',
