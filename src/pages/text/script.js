@@ -3,6 +3,15 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 
+const ORIGIN_URL = window.location.origin;
+let base_url;
+
+if (ORIGIN_URL == "https://milenagiachetti.github.io") {
+    base_url = ORIGIN_URL + "/threeJS-practice/";
+} else {
+    base_url = ORIGIN_URL;
+}
+
 /* Base */
 // Debug
 const gui = new dat.GUI()
@@ -28,11 +37,11 @@ sceneFolder.addColor(parameters, 'sceneBackground')
 /* Textures */
 const textureLoader = new THREE.TextureLoader()
 let matCaps = []
-matCaps.push(textureLoader.load("/textures/matcaps/7.png"))
-matCaps.push(textureLoader.load("/textures/matcaps/10.png"))
-matCaps.push(textureLoader.load("/textures/matcaps/11.png"))
-matCaps.push(textureLoader.load("/textures/matcaps/12.png"))
-matCaps.push(textureLoader.load("/textures/matcaps/13.png"))
+matCaps.push(textureLoader.load(base_url + "/textures/matcaps/7.png"))
+matCaps.push(textureLoader.load(base_url + "/textures/matcaps/10.png"))
+matCaps.push(textureLoader.load(base_url + "/textures/matcaps/11.png"))
+matCaps.push(textureLoader.load(base_url + "/textures/matcaps/12.png"))
+matCaps.push(textureLoader.load(base_url + "/textures/matcaps/13.png"))
 
 /* Object */
 // Font
