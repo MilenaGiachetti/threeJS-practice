@@ -1,7 +1,7 @@
 import "./style.scss";
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
 
 /************ Handle URL ************/
 const ORIGIN_URL = window.location.origin;
@@ -19,7 +19,7 @@ const canvas = document.querySelector('canvas#canvas');
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#fff");
+scene.background = new THREE.Color("#f2f2f2");
 
 // Loading Manager
 const manager = new THREE.LoadingManager();
@@ -34,12 +34,12 @@ manager.onError = function(url) {
 };
 
 // Model
-let well;
-const gltfLoader = new GLTFLoader(manager);
-gltfLoader.load(base_url + "/models/well/well.glb", model => {
+let chair;
+const objLoader = new OBJLoader(manager);
+objLoader.load(base_url + "/models/chair/chair.obj", model => {
     console.log(model);
-    well = model.scene;
-    scene.add(well);
+    chair = model;
+    scene.add(chair);
 });
 
 /************ Points ************/
@@ -59,23 +59,23 @@ const points = [
 ]
 
 /************ Lights ************/
-const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0x800000, 5);
-directionalLight.position.set(0, 1, 1);
+const directionalLight = new THREE.DirectionalLight(0xffffaa, 1);
+directionalLight.position.set(2, 4, 2);
 scene.add(directionalLight);
 
 /************ Sizes ************/
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+    width: window.innerWidth / 2,
+    height: window.innerHeight / 2
 };
 
 window.addEventListener('resize', () => {
     // Update sizes
-    sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
+    sizes.width = window.innerWidth / 2;
+    sizes.height = window.innerHeight / 2;
     // Update camera
     camera.aspect = sizes.width / sizes.height;
     camera.updateProjectionMatrix();
@@ -87,16 +87,16 @@ window.addEventListener('resize', () => {
 /************ Camera ************/
 // Base camera
 
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100);
-camera.position.set(0, 50, 20);
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 150);
+camera.position.set(20, 110, -50);
 camera.lookAt(0,0,0);
 scene.add(camera);
 
 const orbitControls = new OrbitControls(camera, canvas);
 orbitControls.target = new THREE.Vector3(0, 0, 0);
 orbitControls.maxPolarAngle = Math.PI * 0.5;
-orbitControls.maxDistance = 30;
-orbitControls.minDistance = 3;
+orbitControls.maxDistance = 300;
+orbitControls.minDistance = 0;
 orbitControls.enableDamping = true;
 
 /************ Renderer ************/

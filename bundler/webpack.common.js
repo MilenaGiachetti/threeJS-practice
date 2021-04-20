@@ -89,19 +89,19 @@ module.exports = {
             },
 
             // Images
-            {
-                test: /\.(jpg|png|gif|svg)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/images/'
-                        }
-                    }
-                ]
-            },
+            // {
+            //     test: /\.(jpg|png|gif|svg)$/,
+            //     use:
+            //     [
+            //         {
+            //             loader: 'file-loader',
+            //             options:
+            //             {
+            //                 outputPath: 'static/images/'
+            //             }
+            //         }
+            //     ]
+            // },
 
             // Fonts
             {
