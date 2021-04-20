@@ -2,7 +2,10 @@ import "./style.scss";
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import Stats from 'three/examples/jsm/libs/stats.module';
+import * as dat from 'dat.gui';
 
+/************ Handle URL ************/
 const ORIGIN_URL = window.location.origin;
 let base_url;
 
@@ -12,116 +15,135 @@ if (ORIGIN_URL == "https://milenagiachetti.github.io") {
     base_url = ORIGIN_URL;
 }
 
-function main() {
-const canvas = document.querySelector('#c');
-const renderer = new THREE.WebGLRenderer({canvas});
+/************ Scene base ************/
+// Canvas
+const canvas = document.querySelector('canvas#canvas');
 
-const fov = 45;
-const aspect = 2;  // the canvas default
-const near = 0.1;
-const far = 100;
-const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.set(0, 10, 20);
-
-const controls = new OrbitControls(camera, canvas);
-controls.target.set(0, 5, 0);
-controls.update();
-
+// Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color('#ffc0f4');
 
+// Loading Manager
+const manager = new THREE.LoadingManager();
+manager.onLoad = function() {
+    console.log("loaded");
+    // hide loading screen
+    // document.getElementById("loadingScreen").classList.add("fadeOut");
+};
 
-{
-    const skyColor = 0xffffff;  // light blue
-    //const groundColor = 0xffffff;  // brownish orange
-    const intensity = 0.8;
-    //const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
-    const light = new THREE.HemisphereLight(skyColor, intensity);
-    scene.add(light);
+manager.onError = function(url) {
+	console.log('Error loading ' + url);
+};
+
+// debug
+const gui = new dat.GUI();
+const guiAnimations = {};
+const animationsFolder = gui.addFolder("Animations");
+
+const stats = Stats();
+document.body.appendChild(stats.dom);
+
+const debugObject = {
+    backgroundColor: "#80c5c9",
 }
 
-{
-    const color = 0xffefba;
-    const intensity = 0.3;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(5, 10, 2);
-    scene.add(light);
-    scene.add(light.target);
-}
+scene.background = new THREE.Color(debugObject.backgroundColor);
 
-function frameArea(sizeToFitOnScreen, boxSize, boxCenter, camera) {
-    const halfSizeToFitOnScreen = sizeToFitOnScreen * 0.5;
-    const halfFovY = THREE.MathUtils.degToRad(camera.fov * .5);
-    const distance = halfSizeToFitOnScreen / Math.tan(halfFovY);
-    // compute a unit vector that points in the direction the camera is now
-    // in the xz plane from the center of the box
-    const direction = (new THREE.Vector3())
-        .subVectors(camera.position, boxCenter)
-        .multiply(new THREE.Vector3(1, 0, 1))
-        .normalize();
+const backgroundFolder = gui.addFolder("Background");
+backgroundFolder.addColor(debugObject, 'backgroundColor').onChange(() => {scene.background.set(debugObject.backgroundColor)});
 
-    // move the camera to a position distance units way from the center
-    // in whatever direction the camera was from the center already
-    camera.position.copy(direction.multiplyScalar(distance).add(boxCenter));
+// Model
+let duck;
+let animationActions = {};
+let mixer = null;
+const gltfLoader = new GLTFLoader(manager);
+gltfLoader.load(base_url + "/models/duck/duck.glb", model => {
+    console.log(model.animations);
+    duck = model.scene;
+    duck.position.set(0, -3, 0);
+    mixer = new THREE.AnimationMixer(duck);
+    for(const animation of model.animations){
+        let animationAction = mixer.clipAction(animation);
+        animationActions[animation.name] = animationAction;
+        animationActions[animation.name].clampWhenFinished = true;
+        console.log(animation)
+        guiAnimations[animation.name] = () => {
+            mixer.stopAllAction();
+            animationActions[animation.name].play();
+        };
+        animationsFolder.add(guiAnimations, animation.name);
+    }
 
-    // pick some near and far values for the frustum that
-    // will contain the box.
-    camera.near = boxSize / 100;
-    camera.far = boxSize * 100;
+    scene.add(duck);
+});
 
+/************ Lights ************/
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffaa, 1);
+directionalLight.position.set(2, 4, 2);
+scene.add(directionalLight);
+
+/************ Sizes ************/
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+};
+
+window.addEventListener('resize', () => {
+    // Update sizes
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+    // Update camera
+    camera.aspect = sizes.width / sizes.height;
     camera.updateProjectionMatrix();
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
 
-    // point the camera to look at the center of the box
-    camera.lookAt(boxCenter.x, boxCenter.y, boxCenter.z);
-}
+/************ Camera ************/
+// Base camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 150);
+camera.position.set(0, 3, 5);
+camera.lookAt(0,0,0);
+scene.add(camera);
 
-{
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load(base_url + '/models/donut-sprinkles.glb', (gltf) => {
-        const root = gltf.scene;
-        scene.add(root);
-        
-        // compute the box that contains all the stuff
-        // from root and below
-        const box = new THREE.Box3().setFromObject(root);
+const orbitControls = new OrbitControls(camera, canvas);
+orbitControls.target = new THREE.Vector3(0, 0, 0);
+orbitControls.maxPolarAngle = Math.PI * 0.5;
+orbitControls.maxDistance = 300;
+orbitControls.minDistance = 0;
+orbitControls.enableDamping = true;
 
-        const boxSize = box.getSize(new THREE.Vector3()).length();
-        const boxCenter = box.getCenter(new THREE.Vector3());
+/************ Renderer ************/
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas
+});
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-        // set the camera to frame the box
-        frameArea(boxSize * 1, boxSize, boxCenter, camera);
+/************ Animate ************/
+const clock = new THREE.Clock();
+let previousTime = 0;
 
-        // update the Trackball controls to handle the new size
-        controls.maxDistance = boxSize * 10;
-        controls.target.copy(boxCenter);
-        controls.update();
-    });
-}
-
-function resizeRendererToDisplaySize(renderer) {
-    const canvas = renderer.domElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-        renderer.setSize(width, height, false);
-    }
-    return needResize;
-}
-
-function render() {
-    if (resizeRendererToDisplaySize(renderer)) {
-        const canvas = renderer.domElement;
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
+const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
+    const deltaTime = elapsedTime - previousTime;
+    previousTime = elapsedTime;
+    
+    // Update animation
+    if(mixer) {
+        mixer.update(deltaTime);
     }
 
+    // Update stats
+    stats.update();
+
+    // Render
     renderer.render(scene, camera);
 
-    requestAnimationFrame(render);
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick);
 }
-
-requestAnimationFrame(render);
-}
-
-main();
+tick();
