@@ -118,7 +118,9 @@ orbitControls.enableDamping = true;
 
 /************ Renderer ************/
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    // change - add antialias only for screens with less than one devicePixelRatio
+    antialias: true
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
