@@ -6,6 +6,9 @@ export default function IndexPage() {
       <Link href="/github">
         <a>Github heat map</a>
       </Link>
+      <Link href="/character">
+        <a>Character walk</a>
+      </Link>
     </div>
   )
 }
