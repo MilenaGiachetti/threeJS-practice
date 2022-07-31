@@ -1,11 +1,9 @@
-import Home from "@Pages/Home";
+import Home from '@Pages/Home';
+import './scss/index.scss';
 
 function App() {
   return (
-    <>
-      <h2>Test canvas</h2>
-      <Home />
-    </>
+    <Home />
   );
 }
 
