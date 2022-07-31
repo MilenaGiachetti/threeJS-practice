@@ -20,8 +20,10 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@redux/*": ["./src/redux/*"],
-      "@hooks/*": ["./src/hooks/*"]
+      "@Components/*": ["./src/Components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@Pages/*": ["./src/Pages/*"],
+      "@redux/*": ["./src/redux/*"]
     }
   },
   "include": [

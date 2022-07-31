@@ -5,8 +5,10 @@ module.exports = function override(config) {
     ...config.resolve,
     alias: {
       ...config.alias,
-      '@redux': path.resolve(__dirname, 'src/redux'),
-      '@hooks': path.resolve(__dirname, 'src/hooks')
+      '@Components': path.resolve(__dirname, 'src/Components'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@Pages': path.resolve(__dirname, 'src/Pages'),
+      '@redux': path.resolve(__dirname, 'src/redux')
     },
   };
 
