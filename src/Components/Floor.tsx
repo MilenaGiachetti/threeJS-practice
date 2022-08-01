@@ -6,7 +6,7 @@ function Floor(props: ThreeElements['mesh']) {
     <mesh
       {...props}
     >
-      <planeGeometry args={[100, 100, 1]} />
+      <planeGeometry args={[200, 200, 1]} />
       <meshStandardMaterial color='#9ecb91' />
     </mesh>
   )

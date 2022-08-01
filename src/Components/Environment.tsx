@@ -10,12 +10,12 @@ function Environment() {
   const colorMap = useLoader(TextureLoader, sky)
 
   useFrame(({ clock }) => {
-    myMesh.current.rotation.y = clock.getElapsedTime() / 10
+    myMesh.current.rotation.y = clock.getElapsedTime() / 20
   })
 
   return (
     <mesh ref={myMesh}>
-      <sphereGeometry args={[10, 32, 32]} />
+      <sphereGeometry args={[100, 32, 32]} />
       <meshStandardMaterial map={colorMap} side={THREE.BackSide} />
     </mesh>
   )
