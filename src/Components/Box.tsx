@@ -7,7 +7,7 @@ function Box(props: ThreeElements['mesh']) {
   const mesh = useRef<THREE.Mesh>(null!)
   const [hovered, setHover] = useState(false)
   const [active, setActive] = useState(false)
-  useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
+  // useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
   return (
     <mesh
       {...props}
@@ -17,7 +17,7 @@ function Box(props: ThreeElements['mesh']) {
       onPointerOver={(event) => setHover(true)}
       onPointerOut={(event) => setHover(false)}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? '#F15946' : '#0C090D'} />
+      <meshStandardMaterial color={hovered ? '#0C090D' : '#FCFCFC'} />
     </mesh>
   )
 }
