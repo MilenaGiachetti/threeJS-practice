@@ -5,7 +5,11 @@ enum actionByKey {
   KeyW = 'forward',
   KeyS = 'backward',
   KeyA = 'left',
-  KeyD = 'right'
+  KeyD = 'right',
+  ArrowUp = 'forward',
+  ArrowDown = 'backward',
+  ArrowLeft = 'left',
+  ArrowRight = 'right'
 }
 
 export const useKeyboardMovement = () => {
