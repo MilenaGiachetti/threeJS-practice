@@ -36,10 +36,10 @@ function World() {
       worldMesh.current.rotation.x -= 0.01
     }
     if (left) {
-      worldMesh.current.rotation.z += 0.01
+      worldMesh.current.rotation.y += 0.01
     }
     if (right) {
-      worldMesh.current.rotation.z -= 0.01
+      worldMesh.current.rotation.y -= 0.01
     }
   })
 
