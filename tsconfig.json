@@ -24,7 +24,7 @@
       "@Components/*": ["./src/Components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@Pages/*": ["./src/Pages/*"],
-      "@redux/*": ["./src/redux/*"]
+      "@zustand/*": ["./src/zustand/*"]
     }
   },
   "include": [
