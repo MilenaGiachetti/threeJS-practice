@@ -34,8 +34,8 @@ type GLTFResult = GLTF & {
   }
 }
 
-type ActionName = 'wave' | 'swim' | 'idle' | 'walk' | 'look' | 'jump'
-type GLTFActions = Record<ActionName, THREE.AnimationAction>
+// type ActionName = 'wave' | 'swim' | 'idle' | 'walk' | 'look' | 'jump'
+// type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
 function Duck(props: JSX.IntrinsicElements['group']) {
   const { forward, backward, left, right } = useStore((state) => state)
@@ -52,7 +52,7 @@ function Duck(props: JSX.IntrinsicElements['group']) {
       actions.idle.play();
       actions.walk.stop();
     }
-  }, [forward, backward, left, right])
+  }, [forward, backward, left, right, actions.idle, actions.walk])
 
   useFrame(() => {
     const quaternion = new THREE.Quaternion();
