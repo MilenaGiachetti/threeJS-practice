@@ -8,7 +8,7 @@ import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { useKeyboardMovement } from '@hooks/useKeyboardMovement';
 
-export default function Home() {
+function Home() {
 	useKeyboardMovement();
 
 	return (
@@ -24,3 +24,5 @@ export default function Home() {
 		</Canvas>
 	)
 }
+
+export default Home;
