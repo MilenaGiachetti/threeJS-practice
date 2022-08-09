@@ -31,14 +31,21 @@ function World() {
   useFrame(() => {
     if (forward) {
       worldMesh.current.rotation.x += 0.01
-    }
-    if (backward) {
+      if (left) {
+        worldMesh.current.rotation.y += 0.01
+      } else if (right) {
+        worldMesh.current.rotation.y -= 0.01
+      }
+    } else if (backward) {
       worldMesh.current.rotation.x -= 0.01
-    }
-    if (left) {
+      if (left) {
+        worldMesh.current.rotation.y += 0.01
+      } else if (right) {
+        worldMesh.current.rotation.y -= 0.01
+      }
+    } else if (left) {
       worldMesh.current.rotation.y += 0.01
-    }
-    if (right) {
+    } else if (right) {
       worldMesh.current.rotation.y -= 0.01
     }
   })
