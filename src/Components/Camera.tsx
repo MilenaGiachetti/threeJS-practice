@@ -1,4 +1,4 @@
-import { PerspectiveCamera } from '@react-three/drei';
+import { OrthographicCamera } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -14,7 +14,7 @@ function Camera(props: Props) {
   })
 
   return (
-    <PerspectiveCamera makeDefault {...props} />
+    <OrthographicCamera makeDefault {...props} zoom={75} near={-10} />
   )
 }
 

@@ -15,7 +15,7 @@ function Environment() {
 
   return (
     <mesh ref={myMesh}>
-      <sphereGeometry args={[100, 32, 32]} />
+      <sphereGeometry args={[20, 32, 32]} />
       <meshStandardMaterial map={colorMap} side={THREE.BackSide} />
     </mesh>
   )
