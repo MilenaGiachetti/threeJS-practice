@@ -41,7 +41,7 @@ type tDuckProps = {
 } & JSX.IntrinsicElements['group']
 
 function Duck({ innerRef, setActions, ...props }: tDuckProps) {
-  const { animations, materials, nodes } = useGLTF('/duck.glb') as GLTFResult
+  const { animations, materials, nodes } = useGLTF('/models/duck.glb') as GLTFResult
   const { actions } = useAnimations(animations, innerRef)
 
   useEffect(() => {
@@ -73,6 +73,6 @@ function Duck({ innerRef, setActions, ...props }: tDuckProps) {
   )
 }
 
-useGLTF.preload('/duck.glb')
+useGLTF.preload('/models/duck.glb')
 
 export default Duck;

@@ -1,28 +1,32 @@
-import { Canvas } from '@react-three/fiber';
-import SceneEnvironment from '@Components/Environment';
-import World from '@Components/World';
-import Duck from '@Components/Duck';
-import Camera from '@Components/Camera';
-
-import { OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
-import { useKeyboardMovement } from '@hooks/useKeyboardMovement';
+import { Link } from 'react-router-dom'
 
 function Home() {
-	useKeyboardMovement();
-
-	return (
-		<Canvas>
-			<OrbitControls />
-			<Camera fov={75} position={new THREE.Vector3(0, 2, 5)} />
-			<pointLight position={[10, 10, 10]} intensity={0.5} />
-			<ambientLight intensity={0.2} />
-			<ambientLight color='#FD5E53' intensity={0.2} />
-			<SceneEnvironment />
-			<Duck position={[0, -2, 0,]} />
-			<World />
-		</Canvas>
-	)
+  return (
+    <main className='c-home'>
+      <nav className='o-container'>
+        <ul>
+          <li>
+            <Link className="c-home__link" to="/treehouse">Treehouse</Link>
+          </li>
+          <li>
+            <Link className="c-home__link" to="/eight-point-walk">Eight point walk</Link>
+          </li>
+          <li>
+            <Link className="c-home__link" to="/free-walk">Free movement</Link>
+          </li>
+          <li>
+            <Link className="c-home__link" to="/ripple">Ripple</Link>
+          </li>
+          <li>
+            <Link className="c-home__link" to="/trail">Trail</Link>
+          </li>
+          <li>
+            <Link className="c-home__link" to="/rubik">Rubik</Link>
+          </li>
+        </ul>
+      </nav>
+    </main>
+  )
 }
 
-export default Home;
+export default Home
