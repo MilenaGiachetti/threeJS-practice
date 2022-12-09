@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { BufferGeometry, Material, Mesh, Vector3 } from 'three';
+import { BufferGeometry, Color, Material, Mesh, Vector3 } from 'three';
 
 type Props = {
     x: number,
@@ -30,7 +30,13 @@ const RubikPiece = forwardRef(({ x, y, z }: Props, ref: React.Ref<Mesh<BufferGeo
             <boxGeometry args={[0.95, 0.95, 0.95]} />
             {
                 colorConfig.map((c, i) => (
-                    <meshBasicMaterial attach={`material-${i}`} key={`${uid}-${c.color}`} color={c.showColor ? c.color : INNER_COLOR} />
+                    <meshStandardMaterial
+                        emissive={new Color(0xffffff)}
+                        emissiveIntensity={0}
+                        attach={`material-${i}`}
+                        key={`${uid}-${c.color}`}
+                        color={c.showColor ? c.color : INNER_COLOR}
+                    />
                 ))
             }
         </mesh>
